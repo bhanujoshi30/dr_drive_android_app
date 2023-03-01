@@ -17,7 +17,6 @@
     <string name="Timeout">Timeout</string>
     <string name="InternetCheck">Please check your internet connection</string>
     <string name="TechnicalError">Technical error, please try later</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="license_expiry">LICENSE EXPIRY</string>
     <string name="zip_code">ZIP-CODE</string>

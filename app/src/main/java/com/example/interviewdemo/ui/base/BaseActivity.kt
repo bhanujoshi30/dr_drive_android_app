@@ -1,21 +1,25 @@
 package com.example.interviewdemo.ui.base
 
 import android.app.AlertDialog
+import android.app.Dialog
+
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.text.BoringLayout
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.interviewdemo.R
+import com.example.interviewdemo.models.WorkshopDetailItem
 import com.example.interviewdemo.ui.SplashScreen
 
 
@@ -28,7 +32,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private var alertDialogProgress: AlertDialog? = null
     lateinit var mDataBinding: ViewDataBinding
-    lateinit var titleLogo : ImageView
+    lateinit var titleLogo: ImageView
     private val PERMISSIONS_REQUEST_CALL_PHONE = 101
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +47,7 @@ abstract class BaseActivity : AppCompatActivity() {
      * @return layout id
      */
     abstract fun setActivityLayout(): Int
+
     /**
      * Method to initialize the class data
      *
@@ -50,8 +55,8 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     abstract fun initialize(savedInstanceState: Bundle?)
 
-    private fun setActionBarLogo(){
-        if(mDataBinding.root.context !is SplashScreen){
+    private fun setActionBarLogo() {
+        if (mDataBinding.root.context !is SplashScreen) {
 
             supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
             titleLogo = ImageView(supportActionBar?.themedContext)
@@ -101,31 +106,43 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * Method to check and request user to grant manifest permissions
      * */
-    fun checkAndRequestPermissions(): Boolean{
-        if(ActivityCompat.checkSelfPermission(applicationContext, android.Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
+    fun checkAndRequestPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                applicationContext,
+                android.Manifest.permission.CALL_PHONE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             showAlertBox("Permission required!", "Please grant phone call access.") {
-                ActivityCompat.requestPermissions(this,
+                ActivityCompat.requestPermissions(
+                    this,
                     arrayOf(android.Manifest.permission.CALL_PHONE),
-                    PERMISSIONS_REQUEST_CALL_PHONE)
+                    PERMISSIONS_REQUEST_CALL_PHONE
+                )
             }
-        }else{
+        } else {
             return true
         }
         return false
     }
 
     fun callWorkshopPhone(phoneNo: String?) {
-        if(checkAndRequestPermissions()){
-            if(!phoneNo.isNullOrEmpty() ){
+        if (checkAndRequestPermissions()) {
+            if (!phoneNo.isNullOrEmpty()) {
                 val intent =
-                    Intent(Intent.ACTION_CALL, Uri.parse(java.lang.StringBuilder().append("tel:").append(phoneNo).toString()))
+                    Intent(
+                        Intent.ACTION_CALL,
+                        Uri.parse(
+                            java.lang.StringBuilder().append("tel:").append(phoneNo).toString()
+                        )
+                    )
                 startActivity(intent)
-            }else{
+            } else {
                 showAlertBox("Contact Unavailable!", "Sorry, cannot make phone call.") {}
             }
         }
     }
-    fun showAlertBox(title: String, message: String, listener : ()-> Unit) {
+
+    fun showAlertBox(title: String, message: String, listener: () -> Unit) {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
         builder.setMessage(message)
@@ -139,4 +156,23 @@ abstract class BaseActivity : AppCompatActivity() {
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
+    fun showWorkshopDetailDialog(workshopDetail: WorkshopDetailItem) {
+        val dialog = Dialog(this).apply {
+            setContentView(R.layout.dialog_layout_workshop_full_detail)
+            show()
+        }
+
+        val tvWorkshopName = dialog.findViewById<TextView>(R.id.tv_workshop_name)
+        val tvWorkshopAddress = dialog.findViewById<TextView>(R.id.tv_workshop_address)
+        val tvWorkshopOwner = dialog.findViewById<TextView>(R.id.tv_workshop_owner)
+        val tvWorkshopZipcode = dialog.findViewById<TextView>(R.id.tv_workshop_zipcode)
+        val tvWorkshopLicense = dialog.findViewById<TextView>(R.id.tv_workshop_license_expiry)
+
+        tvWorkshopName.text = workshopDetail.facility_name?.lowercase()
+        tvWorkshopAddress.text = workshopDetail.facility_street?.lowercase()
+        tvWorkshopOwner.text = workshopDetail.owner_name?.lowercase()
+        tvWorkshopZipcode.text = workshopDetail.facility_zip_code?.lowercase()
+        tvWorkshopLicense.text = workshopDetail.expiration_date?.lowercase()
+
     }
+}

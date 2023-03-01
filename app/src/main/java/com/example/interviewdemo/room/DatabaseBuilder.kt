@@ -24,7 +24,7 @@ object DatabaseBuilder {
         Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "paras-example-coroutines"
+            "dr-drive-database"
         ).build()
 
     @Provides

@@ -3,7 +3,6 @@ package com.example.interviewdemo.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
 
 /**
  * Data class to hold workshop item

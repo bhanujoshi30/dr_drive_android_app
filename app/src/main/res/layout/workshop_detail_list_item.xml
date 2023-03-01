@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:id="@+id/cl_workshopdetail_List_Item"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginHorizontal="12dp"-->
-<!--        android:layout_marginTop="12dp"-->
-<!--        android:background="@drawable/workshop_item_border">-->
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/cl_workshopdetail_List_Item"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginHorizontal="12dp"-->
+    <!--        android:layout_marginTop="12dp"-->
+    <!--        android:background="@drawable/workshop_item_border">-->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="7dp"
-        >
+        app:cardElevation="7dp">
 
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/workshp_name_border"
             android:orientation="vertical"
-            android:padding="5dp"
-            android:background="@drawable/workshp_name_border">
+            android:padding="5dp">
 
             <TextView
                 android:id="@+id/tv_workshopname"
@@ -39,7 +37,7 @@
                 android:text="BEAVER BODY PAINT"
                 android:textColor="@color/black"
                 android:textSize="24sp"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_workshop_owner"
@@ -68,5 +66,5 @@
             android:clickable="true"
             android:elevation="10dp" />
     </androidx.cardview.widget.CardView>
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </layout>

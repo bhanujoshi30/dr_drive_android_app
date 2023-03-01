@@ -1,25 +1,23 @@
 package com.example.interviewdemo.ui.adapters
 
-import android.app.Dialog
-import android.content.Context
 
 import android.view.LayoutInflater
 
 import android.view.ViewGroup
 
-import android.widget.TextView
 
 import androidx.recyclerview.widget.RecyclerView
-import com.example.interviewdemo.R
+
 import com.example.interviewdemo.databinding.WorkshopDetailListItemBinding
 
 import com.example.interviewdemo.models.WorkshopDetailItem
-import com.example.interviewdemo.ui.MainActivity
+
+import com.example.interviewdemo.utils.BaseCallbackTypes
+
 
 class workshopDetailAdapter(
     private val workshopDetailsList: List<WorkshopDetailItem>,
-    val clickListner: (WorkshopDetailItem) -> Unit,
-    private val context: Context
+    val clickListner: (WorkshopDetailItem, BaseCallbackTypes) -> Unit,
 ) : RecyclerView.Adapter<WorkshopDetailViewHolder>() {
     lateinit var binding: WorkshopDetailListItemBinding
 
@@ -38,16 +36,15 @@ class workshopDetailAdapter(
 
     override fun onBindViewHolder(holder: WorkshopDetailViewHolder, position: Int) {
         val workshopItem = workshopDetailsList[position]
-        holder.bind(workshopItem, clickListner, context)
+        holder.bind(workshopItem, clickListner)
     }
 }
 
-class WorkshopDetailViewHolder(val itemBinding: WorkshopDetailListItemBinding) :
+class WorkshopDetailViewHolder(private val itemBinding: WorkshopDetailListItemBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {
     fun bind(
         workshopDetail: WorkshopDetailItem,
-        clickListner: (WorkshopDetailItem) -> Unit,
-        context: Context
+        clickListener: (WorkshopDetailItem, BaseCallbackTypes) -> Unit,
     ) {
 
         itemBinding.apply {
@@ -59,35 +56,13 @@ class WorkshopDetailViewHolder(val itemBinding: WorkshopDetailListItemBinding) :
             tvWorkshopname.text = workshopDetail.facility_name?.lowercase()
 
             ivPhoneCall.setOnClickListener {
-                if (context is MainActivity) {
-                    context.callWorkshopPhone(workshopDetail.facility)
-                }
+                clickListener(workshopDetail, BaseCallbackTypes.PhoneCall)
             }
         }
 
 
         itemBinding.root.setOnClickListener {
-            showWorkshopDetailDialog(workshopDetail, context)
+            clickListener(workshopDetail, BaseCallbackTypes.ShowDetails)
         }
     }
-}
-
-fun showWorkshopDetailDialog(workshopDetail: WorkshopDetailItem, context: Context) {
-    val dialog = Dialog(context).apply {
-        setContentView(R.layout.dialog_layout_workshop_full_detail)
-        show()
-    }
-
-    val tvWorkshopName = dialog.findViewById<TextView>(R.id.tv_workshop_name)
-    val tvWorkshopAddress = dialog.findViewById<TextView>(R.id.tv_workshop_address)
-    val tvWorkshopOwner = dialog.findViewById<TextView>(R.id.tv_workshop_owner)
-    val tvWorkshopZipcode = dialog.findViewById<TextView>(R.id.tv_workshop_zipcode)
-    val tvWorkshopLicense = dialog.findViewById<TextView>(R.id.tv_workshop_license_expiry)
-
-    tvWorkshopName.text = workshopDetail.facility_name?.lowercase()
-    tvWorkshopAddress.text = workshopDetail.facility_street?.lowercase()
-    tvWorkshopOwner.text = workshopDetail.owner_name?.lowercase()
-    tvWorkshopZipcode.text = workshopDetail.facility_zip_code?.lowercase()
-    tvWorkshopLicense.text = workshopDetail.expiration_date?.lowercase()
-
 }
