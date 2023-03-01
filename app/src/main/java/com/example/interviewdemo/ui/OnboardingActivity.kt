@@ -19,7 +19,7 @@ class OnboardingActivity : BaseActivity() {
     override fun initialize(savedInstanceState: Bundle?) {
         mViewPager = bindings().vpOnboarding
         mViewPager.adapter = OnboardingViewPagerAdapter(this, this)
-        mViewPager.offscreenPageLimit = 3
+        mViewPager.offscreenPageLimit = 1
         TabLayoutMediator(bindings().tlPageIndicator, mViewPager) { _, _ -> }.attach()
         bindings().tvSkip.setOnClickListener {
             val intent =

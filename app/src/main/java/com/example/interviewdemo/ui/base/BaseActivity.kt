@@ -52,6 +52,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun setActionBarLogo(){
         if(mDataBinding.root.context !is SplashScreen){
+
             supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
             titleLogo = ImageView(supportActionBar?.themedContext)
             titleLogo.apply {

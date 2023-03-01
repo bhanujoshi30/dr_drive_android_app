@@ -3,11 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_workshopdetail_List_Item"
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:id="@+id/cl_workshopdetail_List_Item"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginHorizontal="12dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:background="@drawable/workshop_item_border">-->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/workshop_item_border">
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="7dp"
+        >
 
         <LinearLayout
             android:id="@+id/linearLayout2"
@@ -15,23 +25,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:background="@drawable/workshp_name_border">
 
             <TextView
                 android:id="@+id/tv_workshopname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/workshp_name_border"
                 android:shadowColor="#6BFFFFFF"
                 android:shadowDx="3"
                 android:shadowDy="3"
                 android:shadowRadius="3"
                 android:text="BEAVER BODY PAINT"
-                android:textColor="#39393A"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold|italic" />
 
@@ -52,18 +58,15 @@
         </LinearLayout>
 
 
-        <ImageView
+        <ImageButton
             android:id="@+id/iv_phone_call"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="10dp"
+            android:background="@mipmap/ic_phone_call"
             android:clickable="true"
-            android:elevation="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.94"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.95"
-            app:srcCompat="@mipmap/ic_phone_call" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:elevation="10dp" />
+    </androidx.cardview.widget.CardView>
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </layout>

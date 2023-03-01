@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Dr. Drive</string>
     <string name="dr_drive">Dr. Drive</string>
-    <string name="skip">SKIP</string>
-    <string name="next">NEXT</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
     <string name="title_onboarding_1">Welcome to Dr. Drive App !</string>
     <string name="description_onboarding_1">A one stop solution for your 360 degree car care. Dr. \'D\' is committed to serve the patient car and provide world class care</string>
 

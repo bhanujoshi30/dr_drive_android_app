@@ -20,29 +20,29 @@ class workshopDetailAdapter(
     private val workshopDetailsList: List<WorkshopDetailItem>,
     val clickListner: (WorkshopDetailItem) -> Unit,
     private val context: Context
-) : RecyclerView.Adapter<workshopDetailViewHolder>() {
+) : RecyclerView.Adapter<WorkshopDetailViewHolder>() {
     lateinit var binding: WorkshopDetailListItemBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): workshopDetailViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkshopDetailViewHolder {
         val itemBinding = WorkshopDetailListItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return workshopDetailViewHolder(itemBinding)
+        return WorkshopDetailViewHolder(itemBinding)
     }
 
     override fun getItemCount(): Int {
         return workshopDetailsList.size
     }
 
-    override fun onBindViewHolder(holder: workshopDetailViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: WorkshopDetailViewHolder, position: Int) {
         val workshopItem = workshopDetailsList[position]
         holder.bind(workshopItem, clickListner, context)
     }
 }
 
-class workshopDetailViewHolder(val itemBinding: WorkshopDetailListItemBinding) :
+class WorkshopDetailViewHolder(val itemBinding: WorkshopDetailListItemBinding) :
     RecyclerView.ViewHolder(itemBinding.root) {
     fun bind(
         workshopDetail: WorkshopDetailItem,
@@ -51,12 +51,12 @@ class workshopDetailViewHolder(val itemBinding: WorkshopDetailListItemBinding) :
     ) {
 
         itemBinding.apply {
-            tvWorkshopOwner.text = workshopDetail.owner_name
+            tvWorkshopOwner.text = workshopDetail.owner_name?.lowercase()
             tvWorkshopAddress.text =
                 java.lang.StringBuilder().append(workshopDetail.facility_street)
                     .append(", ")
-                    .append(workshopDetail.facility_city)
-            tvWorkshopname.text = workshopDetail.facility_name
+                    .append(workshopDetail.facility_city).toString().lowercase()
+            tvWorkshopname.text = workshopDetail.facility_name?.lowercase()
 
             ivPhoneCall.setOnClickListener {
                 if (context is MainActivity) {
@@ -74,7 +74,7 @@ class workshopDetailViewHolder(val itemBinding: WorkshopDetailListItemBinding) :
 
 fun showWorkshopDetailDialog(workshopDetail: WorkshopDetailItem, context: Context) {
     val dialog = Dialog(context).apply {
-        setContentView(R.layout.fragment_workshop_full_detail)
+        setContentView(R.layout.dialog_layout_workshop_full_detail)
         show()
     }
 
@@ -84,10 +84,10 @@ fun showWorkshopDetailDialog(workshopDetail: WorkshopDetailItem, context: Contex
     val tvWorkshopZipcode = dialog.findViewById<TextView>(R.id.tv_workshop_zipcode)
     val tvWorkshopLicense = dialog.findViewById<TextView>(R.id.tv_workshop_license_expiry)
 
-    tvWorkshopName.text = workshopDetail.facility_name
-    tvWorkshopAddress.text = workshopDetail.facility_street
-    tvWorkshopOwner.text = workshopDetail.owner_name
-    tvWorkshopZipcode.text = workshopDetail.facility_zip_code
-    tvWorkshopLicense.text = workshopDetail.expiration_date
+    tvWorkshopName.text = workshopDetail.facility_name?.lowercase()
+    tvWorkshopAddress.text = workshopDetail.facility_street?.lowercase()
+    tvWorkshopOwner.text = workshopDetail.owner_name?.lowercase()
+    tvWorkshopZipcode.text = workshopDetail.facility_zip_code?.lowercase()
+    tvWorkshopLicense.text = workshopDetail.expiration_date?.lowercase()
 
 }
