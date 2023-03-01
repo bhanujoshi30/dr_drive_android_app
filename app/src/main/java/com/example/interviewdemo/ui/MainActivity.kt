@@ -64,5 +64,5 @@ class MainActivity : BaseActivity() {
         mainViewModel.responseErrorLiveData.observe(this) {
         }
     }
-    
+
 }
