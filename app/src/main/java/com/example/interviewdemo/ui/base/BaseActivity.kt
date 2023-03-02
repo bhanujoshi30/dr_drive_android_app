@@ -26,6 +26,7 @@ import com.example.interviewdemo.R
 import com.example.interviewdemo.models.WorkshopDetailItem
 import com.example.interviewdemo.ui.OnboardingActivity
 import com.example.interviewdemo.ui.SplashScreen
+import com.example.interviewdemo.ui.registration.LoginActivity
 
 
 /**
@@ -37,7 +38,6 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private var alertDialogProgress: AlertDialog? = null
     lateinit var mDataBinding: ViewDataBinding
-    lateinit var titleLogo: ImageView
     private val PERMISSIONS_REQUEST_CALL_PHONE = 101
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,7 +61,9 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun initialize(savedInstanceState: Bundle?)
 
     private fun setActionBarLogo() {
-        if (mDataBinding.root.context !is SplashScreen && mDataBinding.root.context !is OnboardingActivity ) {
+        if (mDataBinding.root.context !is SplashScreen
+            && mDataBinding.root.context !is OnboardingActivity
+            && mDataBinding.root.context !is LoginActivity) {
 
             supportActionBar!!.apply {
                 title= "Dr. Drive"
@@ -70,6 +72,8 @@ abstract class BaseActivity : AppCompatActivity() {
                 setDisplayShowHomeEnabled(true)
                 setBackgroundDrawable(resources.getDrawable(R.drawable.actionbar_background))
             }
+        }else{
+            supportActionBar?.hide() //hides action bar on runtime
         }
     }
 

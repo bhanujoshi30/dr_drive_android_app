@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/registration_navigation"
+    app:startDestination="@id/mobile_number_login">
+
+    <fragment
+        android:id="@+id/mobile_number_login"
+        android:name="com.example.interviewdemo.ui.registration.MobileNumberLoginNav"
+        android:label="fragment_mobile_number_login"
+        tools:layout="@layout/fragment_mobile_number_login" >
+        <action
+            android:id="@+id/action_mobile_number_login_to_otp_verify_login"
+            app:destination="@id/otp_verify_login"
+            app:enterAnim="@anim/animate_slide_left_enter"
+            app:exitAnim="@anim/animate_slide_left_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/otp_verify_login"
+        android:name="com.example.interviewdemo.ui.registration.OtpVerifyLoginNav"
+        android:label="fragment_otp_verify_login"
+        tools:layout="@layout/fragment_otp_verify_login" >
+        <action
+            android:id="@+id/action_otp_verify_login_to_user_detail_form"
+            app:destination="@id/user_detail_form" />
+    </fragment>
+    <fragment
+        android:id="@+id/user_detail_form"
+        android:name="com.example.interviewdemo.ui.registration.UserDetailFormLoginNav"
+        android:label="fragment_user_detail_form"
+        tools:layout="@layout/fragment_user_detail_form" />
+</navigation>

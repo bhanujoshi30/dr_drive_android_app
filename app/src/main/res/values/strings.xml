@@ -26,4 +26,13 @@
     <string name="workshop_detail_label">WORKSHOP DETAILS</string>
     <string name="search">search</string>
     <string name="refresh">refresh</string>
+    <string name="enter_mobile_no">Mobile</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="verify">Verify</string>
+    <string name="enter_otp">OTP</string>
+    <string name="save">Save</string>
+    <string name="please_enter_your_phone_number">Please enter your phone number</string>
+    <string name="please_enter_otp">Please enter OTP</string>
+    <string name="just_to_know_you_better">Just to know you better</string>
+
 </resources>

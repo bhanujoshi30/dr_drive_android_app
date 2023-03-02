@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "370770900304",
+    "project_id": "drdrive-dfcf7",
+    "storage_bucket": "drdrive-dfcf7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370770900304:android:75b5a12f1e1b88f4f26855",
+        "android_client_info": {
+          "package_name": "com.example.interviewdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370770900304-1ml6sma5qs6ucab3eajj1at8cbhpqt73.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbNwJuzBE0XsE9AeAw1X19cg9XvTBhuow"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370770900304-1ml6sma5qs6ucab3eajj1at8cbhpqt73.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

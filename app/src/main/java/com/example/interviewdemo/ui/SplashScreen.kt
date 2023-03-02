@@ -9,6 +9,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.example.interviewdemo.R
 import com.example.interviewdemo.databinding.ActivitySplashBinding
 import com.example.interviewdemo.ui.base.BaseActivity
+import com.example.interviewdemo.ui.registration.LoginActivity
 import com.example.interviewdemo.utils.Animate
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -23,7 +24,6 @@ class SplashScreen : BaseActivity() {
     override fun setActivityLayout(): Int = R.layout.activity_splash
 
     override fun initialize(savedInstanceState: Bundle?) {
-        supportActionBar?.hide() //hides action bar on runtime
         initSplashProperties()
         initSplashTextProperty()
 
@@ -37,10 +37,12 @@ class SplashScreen : BaseActivity() {
      * Method to end splash gracefully
      */
    private fun endSplash(){
+//        val intent =
+//            Intent(applicationContext, OnboardingActivity::class.java)
+//        startActivity(intent)
         val intent =
-            Intent(applicationContext, OnboardingActivity::class.java)
+            Intent(applicationContext, LoginActivity::class.java)
         startActivity(intent)
-
         Animate.animateSlideLeft( this@SplashScreen)
         finish()
     }
