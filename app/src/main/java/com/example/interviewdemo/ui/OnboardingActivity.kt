@@ -17,6 +17,7 @@ class OnboardingActivity : BaseActivity() {
     override fun setActivityLayout(): Int = R.layout.activity_onboarding
 
     override fun initialize(savedInstanceState: Bundle?) {
+        supportActionBar?.hide() //hides action bar on runtime
         mViewPager = bindings().vpOnboarding
         mViewPager.adapter = OnboardingViewPagerAdapter(this, this)
         mViewPager.offscreenPageLimit = 1

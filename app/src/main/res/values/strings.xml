@@ -24,4 +24,6 @@
     <string name="owner">OWNER</string>
     <string name="workshop_name">NAME</string>
     <string name="workshop_detail_label">WORKSHOP DETAILS</string>
+    <string name="search">search</string>
+    <string name="refresh">refresh</string>
 </resources>

@@ -5,8 +5,10 @@ import android.app.Dialog
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
+import android.util.DisplayMetrics
 
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +17,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.interviewdemo.R
 import com.example.interviewdemo.models.WorkshopDetailItem
+import com.example.interviewdemo.ui.OnboardingActivity
 import com.example.interviewdemo.ui.SplashScreen
 
 
@@ -56,15 +61,15 @@ abstract class BaseActivity : AppCompatActivity() {
     abstract fun initialize(savedInstanceState: Bundle?)
 
     private fun setActionBarLogo() {
-        if (mDataBinding.root.context !is SplashScreen) {
+        if (mDataBinding.root.context !is SplashScreen && mDataBinding.root.context !is OnboardingActivity ) {
 
-            supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-            titleLogo = ImageView(supportActionBar?.themedContext)
-            titleLogo.apply {
-                scaleType = ImageView.ScaleType.CENTER
-                setImageResource(R.mipmap.ic_dr_drive_title)
+            supportActionBar!!.apply {
+                title= "Dr. Drive"
+                setIcon(R.mipmap.ic_dr_drive_title)
+                setDisplayUseLogoEnabled(true)
+                setDisplayShowHomeEnabled(true)
+                setBackgroundDrawable(resources.getDrawable(R.drawable.actionbar_background))
             }
-            supportActionBar?.customView = titleLogo
         }
     }
 
@@ -76,21 +81,14 @@ abstract class BaseActivity : AppCompatActivity() {
             val alertDialogBuilderProgress: AlertDialog.Builder?
             val li = LayoutInflater.from(this)
             val promptsView: View = li.inflate(R.layout.progress_bar_layout, null)
-            alertDialogBuilderProgress = AlertDialog.Builder(
-                this
-            )
+            alertDialogBuilderProgress = AlertDialog.Builder(this)
             alertDialogBuilderProgress.setView(promptsView)
-            alertDialogBuilderProgress
-                .setCancelable(false)
-
-            // create alert dialog
+            alertDialogBuilderProgress.setCancelable(false)
             alertDialogProgress = alertDialogBuilderProgress.create()
             alertDialogProgress!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
             alertDialogProgress!!.setContentView(R.layout.progress_bar_layout)
             alertDialogProgress!!.window!!.setBackgroundDrawable(null)
         }
-
-        // show it
         alertDialogProgress!!.show()
     }
 
@@ -106,13 +104,13 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * Method to check and request user to grant manifest permissions
      * */
-    fun checkAndRequestPermissions(): Boolean {
+    private fun checkAndRequestPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
                 applicationContext,
                 android.Manifest.permission.CALL_PHONE
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            showAlertBox("Permission required!", "Please grant phone call access.") {
+            showAlertBox("Permission required!", "Please allow call access.") {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(android.Manifest.permission.CALL_PHONE),
@@ -137,28 +135,32 @@ abstract class BaseActivity : AppCompatActivity() {
                     )
                 startActivity(intent)
             } else {
-                showAlertBox("Contact Unavailable!", "Sorry, cannot make phone call.") {}
+                showAlertBox("Contact Unavailable!", "Phone call failed.") {}
             }
         }
     }
 
-    fun showAlertBox(title: String, message: String, listener: () -> Unit) {
-        val builder = AlertDialog.Builder(this)
+    private fun showAlertBox(title: String, message: String, listener: () -> Unit) {
+        val builder = AlertDialog.Builder(this, R.style.AlertDialogCustom)
         builder.setTitle(title)
         builder.setMessage(message)
-        builder.setIcon(android.R.drawable.ic_dialog_info)
+        builder.setIcon(R.mipmap.ic_dr_drive_title)
         builder.setPositiveButton("Ok") { _, _ ->
             listener()
         }
-        // Create the AlertDialog
         val alertDialog: AlertDialog = builder.create()
-        // Set other dialog properties
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
     fun showWorkshopDetailDialog(workshopDetail: WorkshopDetailItem) {
         val dialog = Dialog(this).apply {
             setContentView(R.layout.dialog_layout_workshop_full_detail)
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+            val width = displayMetrics.widthPixels
+            val height = displayMetrics.heightPixels
+            window?.setLayout((width*0.75).toInt(), (height*0.5).toInt())
             show()
         }
 
