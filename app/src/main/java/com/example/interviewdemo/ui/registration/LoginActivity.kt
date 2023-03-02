@@ -7,7 +7,9 @@ import com.example.interviewdemo.databinding.ActivityLoginBinding
 import com.example.interviewdemo.ui.base.BaseActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthProvider
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginActivity : BaseActivity() {
 
 
@@ -19,4 +21,5 @@ class LoginActivity : BaseActivity() {
 
     }
     private fun bindings() = mDataBinding as ActivityLoginBinding
+
 }

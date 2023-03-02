@@ -28,5 +28,8 @@ object DatabaseBuilder {
         ).build()
 
     @Provides
-    fun getDao(appDatabase: AppDatabase) = appDatabase.workshopDetailDao()
+    fun getWorkshopDetailDao(appDatabase: AppDatabase) = appDatabase.workshopDetailDao()
+
+    @Provides
+    fun getUserDetailDao(appDatabase: AppDatabase) = appDatabase.userDetailDao()
 }

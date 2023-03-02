@@ -35,30 +35,30 @@ class OtpVerifyLoginNav : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         fragView = inflater.inflate(R.layout.fragment_otp_verify_login, container, false)
-        val btnVerify = fragView.findViewById<Button>(R.id.btn_verify)
-        // get storedVerificationId from the intent
-        val storedVerificationId= requireArguments().getString(Constants.FIREBASE_VERIFICATION)
 
-        // fill otp and call the on click on button
+        val btnVerify = fragView.findViewById<Button>(R.id.btn_verify)
+        val storedVerificationId = requireArguments().getString(Constants.FIREBASE_VERIFICATION)
+
         btnVerify.setOnClickListener {
+            (activity as LoginActivity).showProgressBar()
             val otp = fragView.findViewById<EditText>(R.id.et_otp).text.trim().toString()
-            if(otp.isNotEmpty()){
-                val credential : PhoneAuthCredential = PhoneAuthProvider.getCredential(
-                    storedVerificationId.toString(), otp)
+            if (otp.isNotEmpty()) {
+                val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(
+                    storedVerificationId.toString(), otp
+                )
                 signInWithPhoneAuthCredential(credential)
-            }else{
-                Toast.makeText(context,"Enter OTP", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Enter OTP", Toast.LENGTH_SHORT).show()
             }
         }
         return fragView
     }
-    // verifies if the code matches sent by firebase
-    // if success start the new activity in our case it is main Activity
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
         activity?.let {
             auth.signInWithCredential(credential)
                 .addOnCompleteListener(it) { task ->
                     if (task.isSuccessful) {
+                        (activity as LoginActivity).hideProgressLoader()
                         fragView.findNavController().navigate(R.id.action_otp_verify_login_to_user_detail_form)
                     } else {
                         // Sign in failed, display a message and update the UI

@@ -9,6 +9,7 @@ import com.example.interviewdemo.R
 import com.example.interviewdemo.databinding.ActivityOnboardingBinding
 import com.example.interviewdemo.ui.adapters.OnboardingViewPagerAdapter
 import com.example.interviewdemo.ui.base.BaseActivity
+import com.example.interviewdemo.ui.registration.LoginActivity
 import com.example.interviewdemo.utils.Animate
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -23,7 +24,7 @@ class OnboardingActivity : BaseActivity() {
         TabLayoutMediator(bindings().tlPageIndicator, mViewPager) { _, _ -> }.attach()
         bindings().tvSkip.setOnClickListener {
             val intent =
-                Intent(applicationContext, MainActivity::class.java)
+                Intent(applicationContext, LoginActivity::class.java)
             startActivity(intent)
             Animate.animateSlideLeft(this)
             finish()
@@ -32,7 +33,7 @@ class OnboardingActivity : BaseActivity() {
         bindings().tvNext.setOnClickListener {
             if (mViewPager.currentItem ==2 ) {
                 val intent =
-                    Intent(applicationContext, MainActivity::class.java)
+                    Intent(applicationContext, LoginActivity::class.java)
                 startActivity(intent)
                 Animate.animateSlideLeft(this@OnboardingActivity)
                 finish()

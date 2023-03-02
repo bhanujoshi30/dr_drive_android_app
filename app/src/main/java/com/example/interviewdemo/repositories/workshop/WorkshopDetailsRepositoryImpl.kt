@@ -1,4 +1,4 @@
-package com.example.interviewdemo.repositories
+package com.example.interviewdemo.repositories.workshop
 
 
 import com.example.interviewdemo.models.WorkshopDetailItem
@@ -28,5 +28,9 @@ class WorkshopDetailsRepositoryImpl @Inject constructor(
 
     override suspend fun insertAll(workshopDetailList: MutableList<WorkshopDetailItem>) {
         return workshopDetailDao.insertWorkshopDetails(workshopDetailList)
+    }
+
+    override suspend fun deleteAll() {
+        return workshopDetailDao.deleteAllWorkshopDetails()
     }
 }

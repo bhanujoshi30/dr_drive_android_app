@@ -1,5 +1,6 @@
 package com.example.interviewdemo.ui.registration
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -27,20 +28,11 @@ class MobileNumberLoginNav : Fragment() {
     private lateinit var et_phoneNo: EditText
     private lateinit var btn_getOtp: Button
     private lateinit var fragView: View
-    // this stores the phone number of the user
-    var number : String =""
-
-    // create instance of firebase auth
+    var number: String = ""
     lateinit var auth: FirebaseAuth
-
-    // we will use this to match the sent otp from firebase
-    lateinit var storedVerificationId:String
+    lateinit var storedVerificationId: String
     lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     private lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,66 +41,54 @@ class MobileNumberLoginNav : Fragment() {
         fragView = inflater.inflate(R.layout.fragment_mobile_number_login, container, false)
         et_phoneNo = fragView.findViewById(R.id.et_phone_no)
         btn_getOtp = fragView.findViewById(R.id.btn_getOtp)
-
-        btn_getOtp.setOnClickListener {
-            val bundle = bundleOf("user_input" to et_phoneNo.text.toString())
-            it.findNavController().navigate(R.id.action_mobile_number_login_to_otp_verify_login, bundle)
-        }
         firebaseTaskInit()
         return fragView
     }
-fun firebaseTaskInit(){
-    auth=FirebaseAuth.getInstance()
 
-    // start verification on click of the button
-    btn_getOtp.setOnClickListener {
-        login()
-    }
-
-    // Callback function for Phone Auth
-    callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-        // This method is called when the verification is completed
-        override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-            startActivity(Intent(context, MainActivity::class.java))
-
+    fun firebaseTaskInit() {
+        auth = FirebaseAuth.getInstance()
+        btn_getOtp.setOnClickListener {
+            (activity as LoginActivity).showProgressBar()
+            login()
         }
+        // Callback function for Phone Auth
+        callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
-        // Called when verification is failed add log statement to see the exception
-        override fun onVerificationFailed(e: FirebaseException) {
-            Log.d(Constants.LOG_TAGG , "onVerificationFailed  $e")
-        }
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                (activity as LoginActivity).hideProgressLoader()
+                startActivity(Intent(context, MainActivity::class.java))
+            }
 
-        // On code is sent by the firebase this method is called
-        // in here we start a new activity where user can enter the OTP
-        override fun onCodeSent(
-            verificationId: String,
-            token: PhoneAuthProvider.ForceResendingToken
-        ) {
-            storedVerificationId = verificationId
-            resendToken = token
+            override fun onVerificationFailed(e: FirebaseException) {
+                Log.d(Constants.LOG_TAGG, "onVerificationFailed  $e")
+            }
 
-           //call next fragment
-            val bundle = bundleOf(Constants.FIREBASE_VERIFICATION to storedVerificationId)
-            fragView.findNavController().navigate(R.id.action_mobile_number_login_to_otp_verify_login, bundle)
+            override fun onCodeSent(
+                verificationId: String,
+                token: PhoneAuthProvider.ForceResendingToken
+            ) {
+                (activity as LoginActivity).hideProgressLoader()
+                storedVerificationId = verificationId
+                resendToken = token
+
+                //call next fragment
+                val bundle = bundleOf(Constants.FIREBASE_VERIFICATION to storedVerificationId)
+                fragView.findNavController()
+                    .navigate(R.id.action_mobile_number_login_to_otp_verify_login, bundle)
+            }
         }
     }
-}
+
     private fun login() {
         number = et_phoneNo.text.trim().toString()
-
-        // get the phone number from edit text and append the country cde with it
-        if (number.isNotEmpty()){
+        if (number.isNotEmpty()) {
             number = "+91$number"
             sendVerificationCode(number)
-        }else{
-            Toast.makeText(context,"Enter mobile number", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Enter mobile number", Toast.LENGTH_SHORT).show()
         }
     }
 
-    // this method sends the verification code
-    // and starts the callback of verification
-    // which is implemented above in onCreate
     private fun sendVerificationCode(number: String) {
         val options = activity?.let {
             PhoneAuthOptions.newBuilder(auth)
@@ -121,6 +101,5 @@ fun firebaseTaskInit(){
         if (options != null) {
             PhoneAuthProvider.verifyPhoneNumber(options)
         }
-        Log.d("GFG" , "Auth started")
     }
 }

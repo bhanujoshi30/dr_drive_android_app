@@ -2,10 +2,10 @@ package com.example.interviewdemo.ui
 
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.interviewdemo.R
@@ -13,6 +13,8 @@ import com.example.interviewdemo.databinding.ActivityMainBinding
 import com.example.interviewdemo.models.WorkshopDetailItem
 import com.example.interviewdemo.ui.adapters.workshopDetailAdapter
 import com.example.interviewdemo.ui.base.BaseActivity
+import com.example.interviewdemo.ui.registration.LoginActivity
+import com.example.interviewdemo.utils.Animate
 import com.example.interviewdemo.utils.BaseCallbackTypes
 import com.example.interviewdemo.utils.LoadingStatusType
 import com.example.interviewdemo.viewmodels.MainViewModel
@@ -33,6 +35,7 @@ class MainActivity : BaseActivity() {
     override fun initialize(savedInstanceState: Bundle?) {
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         mainViewModel.getWorkShopDetails() // call data from repository
+        setLoggedInStatus(true)
         observeLiveData()
     }
 
@@ -65,7 +68,25 @@ class MainActivity : BaseActivity() {
 
         mainViewModel.responseErrorLiveData.observe(this) {
         }
+
+        mainViewModel.userDetailLiveData.observe(this){
+            for (userDetail in it){
+                setActionBarLogo(java.lang.StringBuilder().append(" Welcome, ").append(userDetail.first_name).toString())
+                break
+            }
+        }
+        mainViewModel.dbClearStatus.observe(this){
+            if(it){
+                setLoggedInStatus(false)
+                val intent =
+                    Intent(applicationContext, LoginActivity::class.java)
+                startActivity(intent)
+                Animate.animateSlideLeft( this@MainActivity)
+                finish()
+            }
+        }
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return super.onCreateOptionsMenu(menu)
@@ -73,8 +94,8 @@ class MainActivity : BaseActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.search -> Toast.makeText(this, "Search Clicked", Toast.LENGTH_SHORT).show()
-            R.id.refresh -> Toast.makeText(this, "Refresh Clicked", Toast.LENGTH_SHORT).show()
+            R.id.logout -> mainViewModel.logout()
+            R.id.refresh -> mainViewModel.recallDataFromServer()
         }
         return super.onOptionsItemSelected(item)
     }

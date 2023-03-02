@@ -1,4 +1,4 @@
-package com.example.interviewdemo.repositories
+package com.example.interviewdemo.repositories.workshop
 
 import com.example.interviewdemo.models.WorkshopDetail
 import com.example.interviewdemo.models.WorkshopDetailItem
@@ -12,4 +12,6 @@ interface WorkshopDetailsRepository {
     suspend fun getWorkshopsDetails(): List<WorkshopDetailItem>
 
     suspend fun insertAll(workshopDetailList: MutableList<WorkshopDetailItem>)
+
+    suspend fun deleteAll()
 }

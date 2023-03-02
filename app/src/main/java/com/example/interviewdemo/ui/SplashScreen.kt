@@ -37,12 +37,15 @@ class SplashScreen : BaseActivity() {
      * Method to end splash gracefully
      */
    private fun endSplash(){
-//        val intent =
-//            Intent(applicationContext, OnboardingActivity::class.java)
-//        startActivity(intent)
-        val intent =
-            Intent(applicationContext, LoginActivity::class.java)
-        startActivity(intent)
+        if(getLoggedInStatus()){
+            val intent =
+                Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+        }else{
+            val intent =
+                Intent(applicationContext, OnboardingActivity::class.java)
+            startActivity(intent)
+        }
         Animate.animateSlideLeft( this@SplashScreen)
         finish()
     }

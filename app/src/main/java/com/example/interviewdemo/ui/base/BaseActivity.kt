@@ -5,7 +5,6 @@ import android.app.Dialog
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -13,13 +12,9 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
-import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.app.ActivityCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.example.interviewdemo.R
@@ -27,6 +22,7 @@ import com.example.interviewdemo.models.WorkshopDetailItem
 import com.example.interviewdemo.ui.OnboardingActivity
 import com.example.interviewdemo.ui.SplashScreen
 import com.example.interviewdemo.ui.registration.LoginActivity
+import com.example.interviewdemo.utils.Constants
 
 
 /**
@@ -43,7 +39,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mDataBinding = DataBindingUtil.setContentView(this, setActivityLayout())
         initialize(savedInstanceState)
-        setActionBarLogo()
+        setActionBarLogo("Dr. Drive")
     }
 
     /**
@@ -60,21 +56,34 @@ abstract class BaseActivity : AppCompatActivity() {
      */
     abstract fun initialize(savedInstanceState: Bundle?)
 
-    private fun setActionBarLogo() {
+    fun setActionBarLogo(titleText: String) {
         if (mDataBinding.root.context !is SplashScreen
             && mDataBinding.root.context !is OnboardingActivity
-            && mDataBinding.root.context !is LoginActivity) {
+            && mDataBinding.root.context !is LoginActivity
+        ) {
 
             supportActionBar!!.apply {
-                title= "Dr. Drive"
-                setIcon(R.mipmap.ic_dr_drive_title)
+                title = titleText
+//                setIcon(R.mipmap.ic_dr_drive_title)
                 setDisplayUseLogoEnabled(true)
                 setDisplayShowHomeEnabled(true)
                 setBackgroundDrawable(resources.getDrawable(R.drawable.actionbar_background))
             }
-        }else{
+        } else {
             supportActionBar?.hide() //hides action bar on runtime
         }
+    }
+
+    fun getLoggedInStatus(): Boolean {
+        val sfData = getSharedPreferences(Constants.SF_NAME, MODE_PRIVATE)
+        return sfData.getBoolean(Constants.LOGIN_STATUS_KEY, false)
+    }
+
+    fun setLoggedInStatus(sfValue:Boolean) {
+        val sharedPreferences = getSharedPreferences(Constants.SF_NAME, MODE_PRIVATE)
+        val sfEdit = sharedPreferences.edit()
+        sfEdit.putBoolean(Constants.LOGIN_STATUS_KEY, sfValue)
+        sfEdit.apply()
     }
 
     /**
@@ -156,6 +165,7 @@ abstract class BaseActivity : AppCompatActivity() {
         alertDialog.setCancelable(false)
         alertDialog.show()
     }
+
     fun showWorkshopDetailDialog(workshopDetail: WorkshopDetailItem) {
         val dialog = Dialog(this).apply {
             setContentView(R.layout.dialog_layout_workshop_full_detail)
@@ -164,7 +174,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
             val width = displayMetrics.widthPixels
             val height = displayMetrics.heightPixels
-            window?.setLayout((width*0.75).toInt(), (height*0.5).toInt())
+            window?.setLayout((width * 0.75).toInt(), (height * 0.5).toInt())
             show()
         }
 

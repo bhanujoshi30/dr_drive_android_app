@@ -12,8 +12,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class AppModule {
+abstract class UserDetailModule {
+
     @Binds
     @Singleton
-    abstract fun providesWorkshopDetailsRepository(workshopDetailRepositoryImpl: WorkshopDetailsRepositoryImpl): WorkshopDetailsRepository
+    abstract fun providesUserDataRepository(userDetailRepositoryImpl: UserDataRepositoryImpl): UserDataRepository
 }
