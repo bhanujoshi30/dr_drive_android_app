@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.interviewdemo.R
 import com.example.interviewdemo.models.UserDetail
 import com.example.interviewdemo.ui.MainActivity
+import com.example.interviewdemo.utils.Animate
 import com.example.interviewdemo.utils.LoadingStatusType
 import com.example.interviewdemo.viewmodels.UserDetailFormViewModel
 
@@ -54,24 +55,27 @@ class UserDetailFormLoginNav : Fragment() {
                 val intent =
                     Intent(context, MainActivity::class.java)
                 startActivity(intent)
+                Animate.animateSlideLeft(this.requireActivity())
+                activity?.finish()
+
             } else {
                 Toast.makeText(context, "error: name is mandatory", Toast.LENGTH_SHORT).show()
             }
 
 
         }
-//observeLiveData()
+        observeLiveData()
         return fragView
     }
 
 
     private fun observeLiveData() {
-//        viewModel.loadingStatusLiveData.observe(viewLifecycleOwner) {
-//            when (it) {
-//                is LoadingStatusType.Loaded -> Toast.makeText(context, "Saved", Toast.LENGTH_SHORT)
-//                    .show()
-//                else -> {}
-//            }
-//        }
+        viewModel.loadingStatusLiveData.observe(viewLifecycleOwner) {
+            when (it) {
+                is LoadingStatusType.Loaded -> Toast.makeText(context, "Welcome!", Toast.LENGTH_SHORT)
+                    .show()
+                else -> {}
+            }
+        }
     }
 }
